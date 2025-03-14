@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from datetime import datetime
+from datetime import date
 from odoo.exceptions import Warning
 from dateutil.relativedelta import relativedelta
 import logging
@@ -13,10 +14,10 @@ class plantilla_iasper(models.Model):
     _description = 'Denuncia de Accidente'
 
     # Datos del siniestro
-    poliza_numero = fields.Char(string="Póliza N°")
-    siniestro_numero = fields.Char(string="Siniestro N°")
-    tomador_nombre = fields.Char(string="Tomador Nombre")
-    telefono_denunciante = fields.Char(string="Teléfono Denunciante")
+    poliza_numero = fields.Char(string="Póliza N°", default="80357/12",required=True)
+    siniestro_numero = fields.Char(string="Siniestro N°",required=True)
+    querrellante_nombre = fields.Char(string="Querrellante Nombre")
+    telefono_querrellante = fields.Char(string="Teléfono Denunciante")
     lugar_fecha = fields.Text(string="Lugar y Fecha")
     nota = fields.Text(string="Nota",default="Este formulario debe remitirse junto con el INFORME MÉDICO, inmediatamente de producido el siniestro.")
 
@@ -25,17 +26,17 @@ class plantilla_iasper(models.Model):
     numero = fields.Char(string="N°")
     localidad = fields.Char(string="Localidad")
     dpto = fields.Char(string="Dpto")
-    email_denunciante = fields.Char(string="E-mail Denunciante")
+    email_querrellante = fields.Char(string="E-mail Querrellante")
 
     # Datos del asegurado
     employee_id = fields.Many2one('hr.employee', string='Empleado', required=True, domain='[("tipo_contrato_id","in",["Locación de Servicios","locacion de servicios"])]')
-    asegurado_nombre = fields.Char(string="Apellido y Nombre del Asegurado")
+    #asegurado_nombre = fields.Char(string="Apellido y Nombre del Asegurado")
     asegurado_dni = fields.Char(string="DNI del Asegurado")
     asegurado_email = fields.Char(string="E-mail Asegurado")
     asegurado_calle = fields.Char(string="Calle Asegurado")
     asegurado_provincia = fields.Char(string="Provincia")
     asegurado_cp = fields.Char(string="C.P")
-    asegurado_edad = fields.Integer('Edad', compute='_calcule_edad', store=False, required=True)
+    asegurado_edad = fields.Integer('Edad', compute='_compute_asegurado_edad', store=False, required=True)
     asegurado_localidad = fields.Char(string="Localidad")
     asegurado_numero = fields.Char(string="N°")
     asegurado_piso = fields.Char(string="Piso")
@@ -77,10 +78,59 @@ class plantilla_iasper(models.Model):
     denunciante_nombre = fields.Char(string="Apellido y Nombre denunciante")
     denunciante_domicilio = fields.Char(string="Domicilio del Denunciante")
 
+    #Estado
+    state = fields.Selection([
+        ('draft', 'Borrador'),
+        ('save', 'Guardado'),
+        ('done', 'Finalizado')
+    ], string="Estado", default='draft')
 
+    @api.onchange('employee_id')
+    def _onchange_employee_id(self):
+        """ Autocompletar los datos del asegurado al seleccionar un empleado """
+        if self.employee_id:
+            #self.asegurado_nombre = self.employee_id.name  # Nombre completo (Apellido, Nombre)
+            self.asegurado_dni = self.employee_id.identification_id  # DNI
+            self.asegurado_email = self.employee_id.work_email  # Email
+            self.asegurado_calle = self.employee_id.domic_real #self.employee_id.address_home_id.street if self.employee_id.address_home_id else ''  # Calle
+            self.asegurado_provincia = self.employee_id.address_home_id.state_id.name if self.employee_id.address_home_id and self.employee_id.address_home_id.state_id else ''  # Provincia
+            self.asegurado_cp = self.employee_id.address_home_id.zip if self.employee_id.address_home_id else ''  # Código Postal
+            self.asegurado_localidad = self.employee_id.address_home_id.city if self.employee_id.address_home_id else ''  # Localidad
+            self.asegurado_numero = self.employee_id.address_home_id.street_number if hasattr(
+                self.employee_id.address_home_id, 'street_number') else ''  # Número de calle
+            self.asegurado_piso = self.employee_id.address_home_id.floor if hasattr(self.employee_id.address_home_id,
+                                                                                    'floor') else ''  # Piso
+            self.asegurado_dpto = self.employee_id.address_home_id.apartment if hasattr(
+                self.employee_id.address_home_id, 'apartment') else ''  # Departamento
+            self.tarea_efectuada = self.employee_id.job_title  # Tarea que efectúa
 
-    def _calcule_edad(self):
-        self.asegurado_edad = relativedelta(datetime.now(), self.employee_id.birthday).years
+    @api.depends('employee_id', 'employee_id.birthday')
+    def _compute_asegurado_edad(self):
+        """ Calcular la edad basada en la fecha de nacimiento del empleado """
+        today = date.today()
+        for record in self:
+            if record.employee_id and record.employee_id.birthday:
+                birth_date = record.employee_id.birthday
+                record.asegurado_edad = today.year - birth_date.year - (
+                        (today.month, today.day) < (birth_date.month, birth_date.day)
+                )
+            else:
+                record.asegurado_edad = 0
+
+    @api.model
+    def create(self, vals):
+        """ Establece el estado en 'save' al crear un registro """
+        vals['state'] = 'save'
+        return super(plantilla_iasper, self).create(vals)
+
+    def print_planilla(self):
+        """ Genera la URL para la impresión del reporte en formato HTML """
+        return {
+            "type": "ir.actions.act_url",
+            "target": "new",
+            "url": f"/report/html/ing_seguros.planilla_iasper_template/{self.id}?context=%7B%22lang%22%3A%22es_ES%22%2C%22tz%22%3A%22America%2FBuenos_Aires%22%2C%22uid%22%3A274%2C%22allowed_company_ids%22%3A%5B1%5D%7D",
+        }
+
 
     def name_get(self):
         return [(record.id, str(record.employee_id.name) + '-' + str(record.date_accident)) for record in self]

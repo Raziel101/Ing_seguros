@@ -28,6 +28,7 @@
         'views/hr_employee_view.xml',
         'views/config.xml',
         'views/planilla_art.xml',
+        'views/plantilla_iasper.xml',
 
         #REPORTS
         'reports/report_planilla_art.xml',
