@@ -25,6 +25,57 @@ class AltaBajaWz(models.TransientModel):
     def _get_xls_seguro(self, tipo, type_secure):
         wbook = xlwt.Workbook()
         wsheet = wbook.add_sheet(tipo)
+
+        """bold_style = xlwt.easyxf(
+            'font: bold on;'
+            'pattern: pattern solid;'
+            'borders: left thick, right thick, top thick, bottom thick;'
+            'align: vertical center, horizontal center;'
+        )
+
+        employees = self.employee_ids
+        wsheet.write_merge(1, 1, 0, 3, f'{tipo} - Seguros', bold_style)
+
+        # CARGO LAS COLUMNAS (DNI, Nombre, Apellido, Fecha de Nacimiento)
+        columnas = ['DNI', 'Nombre', 'Apellido', 'Fecha de Nac.']
+        for i, val in enumerate(columnas):
+            wsheet.write(3, i, val, bold_style)
+
+        # CARGO LAS FILAS
+        for i, e in enumerate(employees):
+            # Separar apellido y nombre (asumiendo que `e.name` tiene "Apellido, Nombre")
+            apellido = ""
+            nombre = ""
+
+            if "," in e.name:
+                apellido, nombre = e.name.split(",", 1)
+                apellido = apellido.strip()
+                nombre = nombre.strip()
+            else:
+                # Si no tiene coma, asumimos que solo hay un valor (puede ser nombre o apellido)
+                apellido = e.name.strip()
+
+            # Escribir en el Excel
+            wsheet.write(i + 4, 0, e.identification_id)  # DNI
+            wsheet.write(i + 4, 1, nombre)  # Nombre
+            wsheet.write(i + 4, 2, apellido)  # Apellido
+            wsheet.write(i + 4, 3, e.birthday.strftime("%d/%m/%Y"))  # Fecha de Nacimiento
+
+            wsheet.row(i + 4).height_mismatch = True
+            wsheet.row(i + 4).height = 350
+
+        # AJUSTE DE ANCHOS DE COLUMNA
+        wsheet.col(0).width = 5000  # DNI
+        wsheet.col(1).width = 8000  # Nombre
+        wsheet.col(2).width = 8000  # Apellido
+        wsheet.col(3).width = 5000  # Fecha de Nacimiento
+
+        # AJUSTE DE ALTURAS
+        wsheet.row(3).height_mismatch = True
+        wsheet.row(3).height = 450
+        wsheet.row(1).height_mismatch = True
+        wsheet.row(1).height = 450"""
+
         bold_style = xlwt.easyxf('font: bold on;' 'pattern: pattern solid, fore_colour light_orange;'
                                  'borders: left thick, right thick, top thick, bottom thick;'
                                  'align: vertical center, horizontal center;')

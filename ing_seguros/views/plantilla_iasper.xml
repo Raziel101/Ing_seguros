@@ -5,27 +5,31 @@
         <field name="model">ing.seguros.planilla.iasper</field>
         <field name="arch" type="xml">
             <form string="Denuncia de Accidente">
+                <header>
+                    <button name="print_planilla" type="object" string="Imprimir" class="btn-primary"/>
+                    <field name="state" invisible="1"/>
+                </header>
                 <sheet>
                     <group>
                         <group string="Datos del Siniestro">
                             <field name="poliza_numero"/>
                             <field name="siniestro_numero"/>
-                            <field name="tomador_nombre"/>
-                            <field name="telefono_denunciante"/>
-                            <field name="lugar_fecha"/>
                             <field name="nota" readonly="1"/>
                         </group>
                     </group>
-                    <group string="Datos del Denunciante">
+                    <group string="Datos del Querrellante">
+                        <field name="querrellante_nombre"/>
+                        <field name="telefono_querrellante"/>
+                        <field name="lugar_fecha"/>
                         <field name="calle"/>
                         <field name="numero"/>
                         <field name="localidad"/>
                         <field name="dpto"/>
-                        <field name="email_denunciante"/>
+                        <field name="email_querrellante"/>
                     </group>
                     <group string="Datos del Asegurado">
                         <field name="employee_id"/>
-                        <field name="asegurado_nombre"/>
+                        <!--<field name="asegurado_nombre"/>-->
                         <field name="asegurado_dni"/>
                         <field name="asegurado_email"/>
                         <field name="asegurado_calle"/>
@@ -55,7 +59,7 @@
                         <field name="tipo_lesion"/>
                         <field name="medico_primera_atencion"/>
                     </group>
-                    <group string="Testigos y Denuncia">
+                    <group string="Testigos">
                         <field name="hubo_testigos"/>
                         <field name="nombres_testigos" attrs="{'invisible': [('hubo_testigos', '=', False)]}"/>
                         <field name="domicilios_testigos" attrs="{'invisible': [('hubo_testigos', '=', False)]}"/>
@@ -79,8 +83,8 @@
             <tree string="Denuncias de Accidentes">
                 <field name="poliza_numero"/>
                 <field name="siniestro_numero"/>
-                <field name="tomador_nombre"/>
-                <field name="asegurado_nombre"/>
+                <field name="querrellante_nombre"/>
+                <field name="employee_id"/>
                 <field name="lugar_accidente"/>
                 <field name="hora"/>
                 <field name="parte_cuerpo_lesionado"/>
@@ -95,8 +99,9 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_seguros_root" name="Seguros"/>
+    <!--<menuitem id="menu_seguros_root" name="Seguros"/>-->
 
-    <menuitem id="menu_planilla_iasper" name="Denuncias de Accidentes"
-              parent="menu_seguros_root" action="action_planilla_iasper"/>
+    <menuitem id="menu_planilla_iasper" name="Plantilla IASPER" sequence="4"
+              parent="ing_seguro_secure_submenu" action="action_planilla_iasper"
+    groups="ing_ausencias.group_ing_rrhh_ausencias_encargado"/>
 </odoo>
