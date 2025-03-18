@@ -32,6 +32,7 @@
 
         #REPORTS
         'reports/report_planilla_art.xml',
+        'reports/report_plantilla_iasper.xml',
 
         # WIZARD
         'wizard/alta_baja_seguros.xml',
