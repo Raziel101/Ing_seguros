@@ -23,7 +23,7 @@
                     <span class="field-overlay" style="top: 280px; left: 900px;"><t t-esc="o.siniestro_numero"/></span>
                     <span class="field-overlay" style="top: 315px; left: 230px;"><t t-esc="o.querrellante_nombre"/></span>
                     <span class="field-overlay" style="top: 315px; left: 1000px;"><t t-esc="o.telefono_querrellante"/></span>
-                    <!--<span class="field-overlay" style="top: 400px; left: 550px;"><t t-esc="o.lugar_fecha"/></span>-->
+                    <span class="field-overlay" style="top: 350px; left: 230px;"><t t-esc="o.lugar_fecha"/></span>
                     <span class="field-overlay" style="top: 380px; left: 230px;"><t t-esc="o.email_querrellante"/></span>
 
                     <!-- Datos del Asegurado -->
@@ -37,7 +37,6 @@
                     <span class="field-overlay" style="top: 560px; left: 300px;"><t t-esc="o.tarea_efectuada"/></span>
                     <span class="field-overlay" style="top: 560px; left: 1300px;"><t t-esc="o.asegurado_edad"/></span>
                     <span class="field-overlay" style="top: 600px; left: 460px;"><t t-esc="o.beneficiario_nombre"/></span>
-                    <span class="field-overlay" style="top: 620px; left: 250px;"><t t-if="o.cuenta_obra_social">✔</t></span>
                     <span class="field-overlay" style="top: 700px; left: 200px;"><t t-esc="o.especificar_obra_social"/></span>
 
 
