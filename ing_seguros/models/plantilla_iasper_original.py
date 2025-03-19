@@ -131,17 +131,6 @@ class plantilla_iasper(models.Model):
             "url": f"/report/html/ing_seguros.planilla_iasper_template/{self.id}?context=%7B%22lang%22%3A%22es_ES%22%2C%22tz%22%3A%22America%2FBuenos_Aires%22%2C%22uid%22%3A274%2C%22allowed_company_ids%22%3A%5B1%5D%7D",
         }
 
-    def _set_paper_format(self):
-        """ Forzar el formato de papel a A4 sin márgenes para evitar desalineación en PDF """
-        report_sudo = self.env['ir.actions.report'].sudo().search([
-            ('report_name', '=', 'ing_seguros.planilla_iasper_template')
-        ], limit=1)
-        if report_sudo:
-            report_sudo.write({'paperformat_id': self.env.ref('base.paperformat_euro').id})
-
-    def _get_report_base_filename(self):
-        return "Informe_Planilla_IASPER"
-
 
     def name_get(self):
         return [(record.id, str(record.employee_id.name) + '-' + str(record.date_accident)) for record in self]
