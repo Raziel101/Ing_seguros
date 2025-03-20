@@ -15,21 +15,31 @@ class plantilla_iasper(models.Model):
 
     # Datos del siniestro
     poliza_numero = fields.Char(string="Póliza N°", default="80357/12",required=True)
-    siniestro_numero = fields.Char(string="Siniestro N°",required=True)
-    querrellante_nombre = fields.Char(string="Querrellante Nombre")
-    telefono_querrellante = fields.Char(string="Teléfono Denunciante")
-    lugar_fecha = fields.Text(string="Lugar y Fecha")
+    siniestro_numero = fields.Char(string="Siniestro N°")
     nota = fields.Text(string="Nota",default="Este formulario debe remitirse junto con el INFORME MÉDICO, inmediatamente de producido el siniestro.")
 
+
     # Datos del denunciante
-    calle = fields.Char(string="Calle")
-    numero = fields.Char(string="N°")
-    localidad = fields.Char(string="Localidad")
-    dpto = fields.Char(string="Dpto")
-    email_querrellante = fields.Char(string="E-mail Querrellante")
+    tomador_nombre = fields.Char(string="Denunciante Nombre", default=lambda self: self._get_company_value('name'))
+    tomador_telefono = fields.Char(string="Teléfono Denunciante", default=lambda self: self._get_company_value('phone'))
+    tomador_domicilio = fields.Text(string="Lugar y Fecha", default=lambda self: self._get_company_address())
+    tomador_calle = fields.Char(string="Calle", default=lambda self: self._get_company_value('street'))
+    tomador_numero = fields.Char(string="N°", default=lambda self: self._get_company_value('street2'))
+    tomador_localidad = fields.Char(string="Localidad", default=lambda self: self._get_company_value('city'))
+    tomador_dpto = fields.Char(string="Dpto", default=lambda self: self._get_company_value('state_id.name'))
+    tomador_email = fields.Char(string="E-mail Denunciante", default=lambda self: self._get_company_value('email'))
+
+    #tomador_nombre = fields.Char(string="Denunciante Nombre")
+    #tomador_telefono = fields.Char(string="Teléfono Denunciante")
+    #tomador_domicilio = fields.Text(string="Lugar y Fecha")
+    #tomador_calle = fields.Char(string="Calle")
+    #tomador_numero = fields.Char(string="N°")
+    #tomador_localidad = fields.Char(string="Localidad")
+    #tomador_dpto = fields.Char(string="Dpto")
+    #tomador_email = fields.Char(string="E-mail Denunciante")
 
     # Datos del asegurado
-    employee_id = fields.Many2one('hr.employee', string='Empleado', required=True, domain='[("tipo_contrato_id","in",["Locación de Servicios","locacion de servicios"])]')
+    employee_id = fields.Many2one('hr.employee', string='Nombre Asegurado', required=True, domain='[("tipo_contrato_id","in",["Locación de Servicios","locacion de servicios"])]')
     #asegurado_nombre = fields.Char(string="Apellido y Nombre del Asegurado")
     asegurado_dni = fields.Char(string="DNI del Asegurado")
     asegurado_email = fields.Char(string="E-mail Asegurado")
@@ -49,16 +59,70 @@ class plantilla_iasper(models.Model):
     especificar_obra_social = fields.Char(string="Especificar")
 
     # Circunstancias del accidente
-    dia = fields.Integer(string="Día")
-    mes = fields.Integer(string="Mes")
-    anio = fields.Integer(string="Año")
-    hora = fields.Char(string="Hora")
-    lugar_accidente = fields.Text(string="Lugar donde ocurrió")
-    circunstancias = fields.Text(string="Circunstancias en que se produjo (explicar detalladamente)")
+    dia = fields.Integer(string="Día", required=True)
+    mes = fields.Integer(string="Mes", required=True)
+    anio = fields.Integer(string="Año", required=True)
+    hora = fields.Char(string="Hora", required=True)
+    lugar_accidente = fields.Text(string="Lugar donde ocurrió", required=True)
+    circunstancias = fields.Text(string="Circunstancias en que se produjo (explicar detalladamente)", required=True)
     actividad_accidentado = fields.Text(string="Actividad que efectuaba el accidentado en aquel momento")
-    parte_cuerpo_lesionado = fields.Char(string="Parte del cuerpo lesionado")
-    tipo_lesion = fields.Char(string="Tipo de lesión")
-    medico_primera_atencion = fields.Char(string="Nombre del médico o establecimiento transitorio que prestó primeros auxilios")
+    tipo_lesion = fields.Selection([('Caídas de personas por caídas desde alturas', 'caídas de personas por caídas desde alturas'),
+                                    ('Caídas de personas por caídas en profundidades', 'caídas de personas por caídas en profundidades'),
+                                    ('Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)', 'Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)'),
+                                    ('Caídas de objetos en curso de manutencion manual', 'Caídas de objetos en curso de manutencion manual'),
+                                    ('Pisada sobre objetos', 'Pisada sobre objetos'),
+                                    ('Coques contra objetos inmóviles', 'Coques contra objetos inmóviles'),
+                                    ('Golpes por objetos inmóviles', 'Golpes por objetos inmóviles'),
+                                    ('Atrapamiento por un objeto', 'Atrapamiento por un objeto'),
+                                    ('Esfuerzos físicos excesivos al levantar objetos', 'Esfuerzos físicos excesivos al levantar objetos'),
+                                    ('Esfuerzos físicos excesivos al empujar objetos', 'Esfuerzos físicos excesivos al empujar objetos'),
+                                    ('Exposicion al calor (de la atmósfera o del ambiente de trabajo)', 'Exposicion al calor (de la atmósfera o del ambiente de trabajo)'),
+                                    ('Exposicion al frío (de la atmósfera o del ambiente de trabajo)', 'Exposicion al frío (de la atmósfera o del ambiente de trabajo)'),
+                                    ('Contacto con sustancias u objetos calientes', 'Contacto con sustancias u objetos calientes'),
+                                    ('Contacto con fuego', 'Contacto con fuego'),
+                                    ('Contacto con fuente de generación o transmición eléctrica', 'Contacto con fuente de generación o transmición eléctrica'),
+                                    ('Contacto por inhalación de sustancias químicas', 'Contacto por inhalación de sustancias químicas'),
+                                    ('Contacto por ingestión de sustancias químicas', 'Contacto por ingestión de sustancias químicas'),
+                                    ('Incendio', 'Incendio'),
+                                    ('Atropellamiento de animales', 'Atropellamiento de animales'),
+                                    ('Mordedura de animales', 'Mordedura de animales'),
+                                    ('Picaduras', 'Picaduras'),
+                                    ('Atropellamiento por vehículos', 'Atropellamiento por vehículos'),
+                                    ('Choque por vehículos', 'Choque por vehículos'),
+                                    ('Agresión con armas', 'Agresión con armas'),
+                                    ('Agresión sin armas', 'Agresión sin armas'),
+                                    ('Injuria punzo-cortante o contusa involuntaria', 'Injuria punzo-cortante o contusa involuntaria')], required=True, string="Tipo de Lesión")
+    parte_cuerpo_lesionado = fields.Selection([('Región craneana', 'Región craneana'),
+                                    ('Ojos', 'Ojos'),
+                                    ('Oído', 'Oído'),
+                                    ('Boca', 'Boca'),
+                                    ('Nariz', 'Nariz'),
+                                    ('Cara', 'Cara'),
+                                    ('Cabeza, ubicaciones múltiples', 'Cabeza, ubicaciones múltiples'),
+                                    ('Región cervical', 'Región cervical'),
+                                    ('Tórax', 'Tórax'),
+                                    ('Pelvis', 'Pelvis'),
+                                    ('Hombro', 'Hombro'),
+                                    ('Brazo', 'Brazo'),
+                                    ('Codo', 'Codo'),
+                                    ('Antebrazo', 'Antebrazo'),
+                                    ('Muñeca', 'Muñeca'),
+                                    ('Mano', 'Mano'),
+                                    ('Dedos de la mano', 'Dedos de la mano'),
+                                    ('Cadera', 'Cadera'),
+                                    ('Muslo', 'Muslo'),
+                                    ('Rodilla', 'Rodilla'),
+                                    ('Pierna', 'Pierna'),
+                                    ('Tobillo', 'Tobillo'),
+                                    ('Pie', 'Pie'),
+                                    ('Dedos de los pies', 'Dedos de los pies'),
+                                    ('Testículos', 'Testículos'),
+                                    ('Tronco, ubicaciones múltiples', 'Tronco, ubicaciones múltiples'),
+                                    ('Ubicaciones múltiples', 'Ubicaciones múltiples'),
+                                    ('Cabeza y Cuello', 'Cabeza y Cuello'),
+                                    ('Miembros superiores', 'Miembros superiores'),
+                                    ('Miembros inferiores', 'Miembros inferiores')], required=True, string="Parte del cuerpo lesionado")
+    medico_primera_atencion = fields.Char(string="Nombe del médico o establecimiento transitorio que prestó primeros auxilios")
 
     # Testigos y denuncia
     hubo_testigos = fields.Boolean(string="¿Hubo testigos del accidente?")
@@ -77,6 +141,8 @@ class plantilla_iasper(models.Model):
 
     denunciante_nombre = fields.Char(string="Apellido y Nombre denunciante")
     denunciante_domicilio = fields.Char(string="Domicilio del Denunciante")
+
+    denunciante_telefono_fondo = fields.Char(String="Telefono del Denunciante", required=True)
 
     #Estado
     state = fields.Selection([
@@ -145,6 +211,34 @@ class plantilla_iasper(models.Model):
 
     def name_get(self):
         return [(record.id, str(record.employee_id.name) + '-' + str(record.date_accident)) for record in self]
+
+    @api.model
+    def _get_company_value(self, field_name):
+        """ Obtener valores de la compañía actual """
+        company = self.env.company
+        return getattr(company, field_name, '') if company else ''
+
+    @api.model
+    def _get_company_address(self):
+        """ Construir dirección completa de la compañía """
+        company = self.env.company
+        address_parts = filter(None, [company.street, company.street2])
+        return " ".join(address_parts) if company else ''
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        """ Si cambia la compañía, actualizar los datos del denunciante """
+        for record in self:
+            record.tomador_nombre = self._get_company_value('name')
+            record.tomador_telefono = self._get_company_value('phone')
+            record.tomador_domicilio = self._get_company_address()
+            record.tomador_calle = self._get_company_value('street')
+            record.tomador_numero = self._get_company_value('street2')
+            record.tomador_localidad = self._get_company_value('city')
+            record.tomador_dpto = self._get_company_value('state_id.name')
+            record.tomador_email = self._get_company_value('email')
+
+
 
 
 
