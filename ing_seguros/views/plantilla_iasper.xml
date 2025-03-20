@@ -83,7 +83,7 @@
         <field name="arch" type="xml">
             <tree string="Denuncias de Accidentes">
                 <field name="poliza_numero"/>
-                <field name="siniestro_numero"/>
+                <!--<field name="siniestro_numero"/>-->
                 <field name="employee_id"/>
                 <field name="lugar_accidente"/>
                 <field name="hora"/>

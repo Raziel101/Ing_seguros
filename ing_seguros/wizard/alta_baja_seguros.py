@@ -123,5 +123,6 @@ class AltaBajaWz(models.TransientModel):
                 'title': 'Correo Enviado',
                 'message': f'El correo con el adjunto {tipo} se ha enviado correctamente.',
                 'sticky': False,
+                'next': {'type': 'ir.actions.act_window_close'}
             }
         }
