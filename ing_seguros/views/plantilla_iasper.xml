@@ -57,7 +57,7 @@
                         <field name="actividad_accidentado"/>
                         <field name="parte_cuerpo_lesionado"/>
                         <field name="tipo_lesion"/>
-                        <field name="denunciante_telefono_fondo"/>
+                        <field name="denunciante_telefono_fondo" string="Teléfono del denunciante"/>
                         <!--<field name="medico_primera_atencion"/>-->
                     </group>
                     <!--<group string="Testigos">
@@ -101,7 +101,7 @@
 
     <menuitem id="menu_seguros_root" name="Seguros"/>
 
-    <menuitem id="menu_planilla_iasper" name="Plantilla IASPER" sequence="4"
+    <menuitem id="menu_planilla_iasper" name="Plantilla IAPSER" sequence="4"
               parent="ing_seguro_secure_submenu" action="action_planilla_iasper"
     groups="ing_ausencias.group_ing_rrhh_ausencias_encargado"/>
 </odoo>

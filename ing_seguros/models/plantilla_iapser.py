@@ -10,7 +10,6 @@ _logger = logging.getLogger(__name__)
 
 class plantilla_iasper(models.Model):
     _name = 'ing.seguros.planilla.iasper'
-    _inherit = 'ing.seguros.planilla.art'
     _description = 'Denuncia de Accidente'
 
     # Datos del siniestro
@@ -29,25 +28,16 @@ class plantilla_iasper(models.Model):
     tomador_dpto = fields.Char(string="Dpto", default=lambda self: self._get_company_value('state_id.name'))
     tomador_email = fields.Char(string="E-mail Denunciante", default=lambda self: self._get_company_value('email'))
 
-    #tomador_nombre = fields.Char(string="Denunciante Nombre")
-    #tomador_telefono = fields.Char(string="Teléfono Denunciante")
-    #tomador_domicilio = fields.Text(string="Lugar y Fecha")
-    #tomador_calle = fields.Char(string="Calle")
-    #tomador_numero = fields.Char(string="N°")
-    #tomador_localidad = fields.Char(string="Localidad")
-    #tomador_dpto = fields.Char(string="Dpto")
-    #tomador_email = fields.Char(string="E-mail Denunciante")
 
     # Datos del asegurado
     employee_id = fields.Many2one('hr.employee', string='Nombre Asegurado', required=True, domain='[("tipo_contrato_id","in",["Locación de Servicios","locacion de servicios"])]')
-    #asegurado_nombre = fields.Char(string="Apellido y Nombre del Asegurado")
     asegurado_dni = fields.Char(string="DNI del Asegurado")
     asegurado_email = fields.Char(string="E-mail Asegurado")
     asegurado_calle = fields.Char(string="Calle Asegurado")
     asegurado_provincia = fields.Char(string="Provincia")
-    asegurado_cp = fields.Char(string="C.P")
+    asegurado_cp = fields.Char(string="C.P", required=True)
     asegurado_edad = fields.Integer('Edad', compute='_compute_asegurado_edad', store=False, required=True)
-    asegurado_localidad = fields.Char(string="Localidad")
+    asegurado_localidad = fields.Char(string="Localidad", required=True)
     asegurado_numero = fields.Char(string="N°")
     asegurado_piso = fields.Char(string="Piso")
     asegurado_dpto = fields.Char(string="Dpto")
@@ -65,7 +55,7 @@ class plantilla_iasper(models.Model):
     hora = fields.Char(string="Hora", required=True)
     lugar_accidente = fields.Text(string="Lugar donde ocurrió", required=True)
     circunstancias = fields.Text(string="Circunstancias en que se produjo (explicar detalladamente)", required=True)
-    actividad_accidentado = fields.Text(string="Actividad que efectuaba el accidentado en aquel momento")
+    actividad_accidentado = fields.Text(string="Actividad que efectuaba el accidentado en aquel momento", required=True)
     tipo_lesion = fields.Selection([('Caídas de personas por caídas desde alturas', 'caídas de personas por caídas desde alturas'),
                                     ('Caídas de personas por caídas en profundidades', 'caídas de personas por caídas en profundidades'),
                                     ('Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)', 'Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)'),
@@ -210,7 +200,7 @@ class plantilla_iasper(models.Model):
 
 
     def name_get(self):
-        return [(record.id, str(record.employee_id.name) + '-' + str(record.date_accident)) for record in self]
+        return [(record.id, str(record.employee_id.name)) for record in self]
 
     @api.model
     def _get_company_value(self, field_name):
