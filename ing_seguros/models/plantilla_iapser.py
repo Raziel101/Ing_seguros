@@ -21,11 +21,11 @@ class plantilla_iasper(models.Model):
     # Datos del denunciante
     tomador_nombre = fields.Char(string="Denunciante Nombre", default=lambda self: self._get_company_value('name'))
     tomador_telefono = fields.Char(string="Teléfono Denunciante", default=lambda self: self._get_company_value('phone'))
-    tomador_domicilio = fields.Text(string="Lugar y Fecha", default=lambda self: self._get_company_address())
+    tomador_domicilio = fields.Text(string="Domicilio Denunciante", default=lambda self: self._get_company_address())
     tomador_calle = fields.Char(string="Calle", default=lambda self: self._get_company_value('street'))
     tomador_numero = fields.Char(string="N°", default=lambda self: self._get_company_value('street2'))
-    tomador_localidad = fields.Char(string="Localidad", default=lambda self: self._get_company_value('city'))
-    tomador_dpto = fields.Char(string="Dpto", default=lambda self: self._get_company_value('state_id.name'))
+    tomador_localidad = fields.Char(string="Localidad Denunciante", default=lambda self: self._get_company_value('city'))
+    tomador_dpto = fields.Char(string="Dpto", default="Federación")
     tomador_email = fields.Char(string="E-mail Denunciante", default=lambda self: self._get_company_value('email'))
 
 
@@ -37,7 +37,7 @@ class plantilla_iasper(models.Model):
     asegurado_provincia = fields.Char(string="Provincia")
     asegurado_cp = fields.Char(string="C.P", required=True)
     asegurado_edad = fields.Integer('Edad', compute='_compute_asegurado_edad', store=False, required=True)
-    asegurado_localidad = fields.Char(string="Localidad", required=True)
+    asegurado_localidad = fields.Char(string="Localidad Asegurado", required=True)
     asegurado_numero = fields.Char(string="N°")
     asegurado_piso = fields.Char(string="Piso")
     asegurado_dpto = fields.Char(string="Dpto")
@@ -149,7 +149,7 @@ class plantilla_iasper(models.Model):
             self.asegurado_dni = self.employee_id.identification_id  # DNI
             self.asegurado_email = self.employee_id.work_email  # Email
             self.asegurado_calle = self.employee_id.domic_real #self.employee_id.address_home_id.street if self.employee_id.address_home_id else ''  # Calle
-            self.asegurado_provincia = self.employee_id.address_home_id.state_id.name if self.employee_id.address_home_id and self.employee_id.address_home_id.state_id else ''  # Provincia
+            self.asegurado_provincia = self.employee_id.address_home_id.state_id.name if self.employee_id.address_home_id and self.employee_id.address_home_id.state_id else 'Entre Ríos (AR)'  # Provincia
             self.asegurado_cp = self.employee_id.address_home_id.zip if self.employee_id.address_home_id else ''  # Código Postal
             self.asegurado_localidad = self.employee_id.address_home_id.city if self.employee_id.address_home_id else ''  # Localidad
             self.asegurado_numero = self.employee_id.address_home_id.street_number if hasattr(
@@ -157,7 +157,7 @@ class plantilla_iasper(models.Model):
             self.asegurado_piso = self.employee_id.address_home_id.floor if hasattr(self.employee_id.address_home_id,
                                                                                     'floor') else ''  # Piso
             self.asegurado_dpto = self.employee_id.address_home_id.apartment if hasattr(
-                self.employee_id.address_home_id, 'apartment') else ''  # Departamento
+                self.employee_id.address_home_id, 'apartment') else 'Federación'  # Departamento
             self.tarea_efectuada = self.employee_id.job_title  # Tarea que efectúa
 
     @api.depends('employee_id', 'employee_id.birthday')
@@ -225,7 +225,7 @@ class plantilla_iasper(models.Model):
             record.tomador_calle = self._get_company_value('street')
             record.tomador_numero = self._get_company_value('street2')
             record.tomador_localidad = self._get_company_value('city')
-            record.tomador_dpto = self._get_company_value('state_id.name')
+            record.tomador_dpto = self._get_company_value('company_registry')#state_id.name
             record.tomador_email = self._get_company_value('email')
 
 

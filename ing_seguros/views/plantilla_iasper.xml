@@ -18,29 +18,29 @@
                         </group>
                     </group>-->
                     <!--<group string="Datos del Tomador">
-                        <field name="tomador_nombre"/>
-                        <field name="tomador_telefono"/>
-                        <field name="tomador_domicilio"/>
-                        <field name="tomador_calle"/>
-                        <field name="tomador_numero"/>
-                        <field name="tomador_localidad"/>
-                        <field name="tomador_dpto"/>
-                        <field name="tomador_email"/>
                     </group>-->
                     <group string="Datos del Asegurado">
+                        <field name="tomador_nombre" invisible="1"/>
+                        <field name="tomador_telefono" invisible="1"/>
+                        <field name="tomador_domicilio" string="Domicilio" invisible="1"/>
+                        <field name="tomador_calle" invisible="1"/>
+                        <field name="tomador_numero" invisible="1"/>
+                        <field name="tomador_localidad" invisible="1"/>
+                        <field name="tomador_dpto" invisible="1" />
+                        <field name="tomador_email" invisible="1"/>
                         <field name="employee_id"/>
                         <!--<field name="asegurado_nombre"/>-->
-                        <!--<field name="asegurado_dni"/>
-                        <field name="asegurado_email"/>
-                        <field name="asegurado_calle"/>-->
+                        <field name="asegurado_dni" invisible="1"/>
+                        <field name="asegurado_email" invisible="1"/>
+                        <field name="asegurado_calle" invisible="1"/>
                         <field name="asegurado_localidad"/>
-                       <!--><field name="asegurado_provincia"/>-->
+                        <field name="asegurado_provincia" invisible="1"/>
                         <field name="asegurado_cp"/>
-                        <!--<field name="asegurado_edad" readonly="1"/>
-                        <field name="asegurado_numero"/>
-                        <field name="asegurado_piso"/>
-                        <field name="asegurado_dpto"/>
-                        <field name="tarea_efectuada"/>-->
+                        <field name="asegurado_edad" readonly="1" invisible="1"/>
+                        <field name="asegurado_numero" invisible="1"/>
+                        <field name="asegurado_piso" invisible="1"/>
+                        <field name="asegurado_dpto" invisible="1"/>
+                        <field name="tarea_efectuada" invisible="1"/>
                     </group>
                     <!--<group string="Datos del Beneficiario">
                         <field name="beneficiario_nombre"/>
@@ -57,7 +57,6 @@
                         <field name="actividad_accidentado"/>
                         <field name="parte_cuerpo_lesionado"/>
                         <field name="tipo_lesion"/>
-                        <field name="denunciante_telefono_fondo" string="Teléfono del denunciante"/>
                         <!--<field name="medico_primera_atencion"/>-->
                     </group>
                     <!--<group string="Testigos">
@@ -67,11 +66,12 @@
                         <field name="sumario_policial"/>
                         <field name="autoridad"/>
                     </group>-->
-                    <!--<group string="Datos del Denunciante">
-                        <field name="tipo_denunciante"/>
-                        <field name="denunciante_nombre"/>
-                        <field name="denunciante_domicilio"/>
-                    </group>-->
+                    <group string="Datos del Denunciante">
+                        <field name="tipo_denunciante" invisible="1"/>
+                        <field name="denunciante_nombre" invisible="1"/>
+                        <field name="denunciante_domicilio" invisible="1"/>
+                        <field name="denunciante_telefono_fondo" string="Teléfono del Denunciante"/>
+                    </group>
                 </sheet>
             </form>
         </field>
