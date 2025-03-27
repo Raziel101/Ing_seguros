@@ -102,7 +102,7 @@
                         <span class="field-overlay" style="top: 425px; left: 465px;"><t t-esc="o.anio"/></span>
                         <span class="field-overlay" style="top: 425px; left: 650px;"><t t-esc="o.hora"/></span>
                         <span class="field-overlay" style="top: 445px; left: 220px;"><t t-esc="o.lugar_accidente"/></span>
-                        <span class="field-overlay" style="top: 480px; left: 70px; display: inline-block; max-width: 1300px; overflow: hidden; word-wrap: break-word;"><t t-esc="o.circunstancias"/></span>
+                        <span class="field-overlay" style="top: 480px; left: 50px; display: inline-block; max-width: 680px; overflow: hidden; word-wrap: break-word;"><t t-esc="o.circunstancias"/></span>
                         <span class="field-overlay" style="top: 580px; left: 400px;"><t t-esc="o.actividad_accidentado"/></span>
                         <span class="field-overlay" style="top: 595px; left: 240px;"><t t-esc="o.parte_cuerpo_lesionado"/></span>
                         <span class="field-overlay" style="top: 595px; left: 480px;"><t t-esc="o.tipo_lesion"/></span>
