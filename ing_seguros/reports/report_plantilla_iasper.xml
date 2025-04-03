@@ -14,19 +14,22 @@
                     .page {
                         position: relative;
                         width: 100%;
-                        height: 150vh; /* Asegura que ocupe la altura completa */
+                        /*height: 120vh;  Asegura que ocupe la altura completa */
                         overflow: hidden; /* Permitir desplazamiento */
+                        min-height: 120vh;
+                        height: auto;
+                        overflow-y: auto;
                     }
                     .background-container {
                         position: absolute;
                         top: 0;
                         left: 0;
                         width: 100%;
-                        height: 150vh; /* Ajustar a la altura completa de la página */
+                        height: 120vh; /* Ajustar a la altura completa de la página */
                     }
                     .background-image {
                         width: 100%;
-                        height: 150vh;
+                        height: 120vh;
                         position: absolute;
                         top: 0;
                         left: 0;
@@ -39,16 +42,33 @@
                         font-size: 14px;
                         font-weight: bold;
                         color: black;
+
                     }
                     @media screen {
-                        .background-image {
-                            margin-left: -350px;  /* Ajusta el valor según la necesidad */
-                            margin-top: 3px;   /* Ajusta según sea necesario */
-                            position: absolute;
+                        .report-container {
+                            position: relative;
+                            width: 100vw; /* Usa el ancho completo de la pantalla */
+                            height: 120vh; /* Usa el alto completo de la pantalla */
+                            overflow: hidden; /* Evita desplazamientos inesperados */
                         }
-                        .field-overlay {
-                            left: 70px; /*Ajusta el valor según sea necesario */
+
+                        .background-image {
                             position: absolute;
+                            width: 120%; /* Mantiene el ancho completo */
+                            height: 128%; /* Mantiene el alto completo */
+                            object-fit: contain; /* Ajusta la imagen sin distorsión */
+                            left: -34%;
+                            margin-top:1%;
+                        }
+
+                        .field-overlay {
+                            position: absolute;
+                            font-size: 8x;
+                            left: 60%; /* Ajusta el texto dentro del contenedor */
+                            top: 10%; /* Mantiene la altura relativa */
+                            margin-top:1%;
+                            width: 100%; /* Evita que el texto se salga del área visible */
+                            text-align: left; /* Centra el texto si es necesario */
                         }
                     }
                     @media print {

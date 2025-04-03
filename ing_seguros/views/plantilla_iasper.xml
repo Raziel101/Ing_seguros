@@ -52,10 +52,19 @@
                         <field name="mes"/>
                         <field name="anio"/>
                         <field name="hora"/>
+                        <separator/>
                         <field name="lugar_accidente"/>
+                        <br></br>
                         <field name="circunstancias"/>
+                        <br></br>
+                        <span class="field-overlay" style="display: inline-block; width: 50px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">
+                            <t t-esc="o.circunstancias"/>
+                        </span>
+                        <br></br>
                         <field name="actividad_accidentado"/>
+                        <br></br>
                         <field name="parte_cuerpo_lesionado"/>
+                        <br></br>
                         <field name="tipo_lesion"/>
                         <!--<field name="medico_primera_atencion"/>-->
                     </group>
