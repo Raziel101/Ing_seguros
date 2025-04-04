@@ -54,17 +54,17 @@
                         <field name="hora"/>
                         <separator/>
                         <field name="lugar_accidente"/>
-                        <br></br>
+                        <separator/>
                         <field name="circunstancias"/>
-                        <br></br>
-                        <span class="field-overlay" style="display: inline-block; width: 50px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">
+                        <separator/>
+                        <span class="field-overlay" style="display: inline-block; width: 100%; max-width: 500px; white-space: normal; word-wrap: break-word; word-break: break-word; overflow-wrap: break-word;">
                             <t t-esc="o.circunstancias"/>
                         </span>
-                        <br></br>
+                        <separator/>
                         <field name="actividad_accidentado"/>
-                        <br></br>
+                        <separator/>
                         <field name="parte_cuerpo_lesionado"/>
-                        <br></br>
+                        <separator/>
                         <field name="tipo_lesion"/>
                         <!--<field name="medico_primera_atencion"/>-->
                     </group>
