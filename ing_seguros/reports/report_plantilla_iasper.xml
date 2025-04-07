@@ -66,7 +66,7 @@
                             font-size: 8x;
                             left: 60%; /* Ajusta el texto dentro del contenedor */
                             top: 10%; /* Mantiene la altura relativa */
-                            margin-top:1%;
+                            /*margin-top:1%;*/
                             width: 100%; /* Evita que el texto se salga del área visible */
                             text-align: left; /* Centra el texto si es necesario */
                         }
