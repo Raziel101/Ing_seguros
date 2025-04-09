@@ -5,6 +5,9 @@ from datetime import date
 from odoo.exceptions import Warning
 from dateutil.relativedelta import relativedelta
 import logging
+import base64
+from odoo.modules.module import get_module_resource
+
 _logger = logging.getLogger(__name__)
 
 
@@ -181,11 +184,12 @@ class plantilla_iasper(models.Model):
 
     def print_planilla(self):
         """ Genera la URL para la impresión del reporte en formato HTML """
-        return {
+        """return {
             "type": "ir.actions.act_url",
             "target": "new",
             "url": f"/report/html/ing_seguros.planilla_iasper_template/{self.id}?context=%7B%22lang%22%3A%22es_ES%22%2C%22tz%22%3A%22America%2FBuenos_Aires%22%2C%22uid%22%3A274%2C%22allowed_company_ids%22%3A%5B1%5D%7D",
-        }
+        }"""
+        return self.env.ref('ing_seguros.inf_planilla_iasper_report').report_action(self, config=False)
 
     def _set_paper_format(self):
         """ Forzar el formato de papel a A4 sin márgenes para evitar desalineación en PDF """
@@ -228,7 +232,18 @@ class plantilla_iasper(models.Model):
             record.tomador_dpto = self._get_company_value('company_registry')#state_id.name
             record.tomador_email = self._get_company_value('email')
 
+    imagen_fondo = fields.Binary(compute="_get_imagen_fondo", store=False)
 
+    def _get_imagen_fondo(self):
+        for record in self:
+            ruta = get_module_resource('ing_seguros', 'static/src/pdf', 'Formulario-de-Denuncia.png')
+            try:
+                with open(ruta, 'rb') as f:
+                    record.imagen_fondo = base64.b64encode(f.read())
+            except FileNotFoundError:
+                record.imagen_fondo = False
 
-
-
+    """def _get_imagen_fondo(self):
+        for record in self:
+            with open('/server/odoo/addons/ing_seguros/static/src/pdf/Formulario-de-Denuncia.png', 'rb') as f:
+                record.imagen_fondo = base64.b64encode(f.read())"""

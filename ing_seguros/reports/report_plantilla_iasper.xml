@@ -8,136 +8,97 @@
                         size: A4;
                         margin: 0;
                     }
-                    body{
-                        overflow: auto;
+                    body {
+                        margin: 0;
+                        padding: 0;
                     }
                     .page {
+                        width: 210mm;
+                        height: 297mm;
                         position: relative;
-                        width: 100%;
-                        /*height: 120vh;  Asegura que ocupe la altura completa */
-                        overflow: hidden; /* Permitir desplazamiento */
-                        min-height: 120vh;
-                        height: auto;
-                        overflow-y: auto;
+                        overflow: hidden;
                     }
                     .background-container {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 120vh; /* Ajustar a la altura completa de la página */
-                    }
-                    .background-image {
+                        position: relative;
                         width: 100%;
                         height: 120vh;
+                    }
+                    .background-image {
                         position: absolute;
                         top: 0;
                         left: 0;
+                        width: 100%;
+                        height: 100%;
                         object-fit: contain;
-                        display: cover;
-
+                        z-index: 0;
                     }
                     .field-overlay {
                         position: absolute;
                         font-size: 14px;
                         font-weight: bold;
                         color: black;
-
-                    }
-                    @media screen {
-                        .report-container {
-                            position: relative;
-                            width: 100vw; /* Usa el ancho completo de la pantalla */
-                            height: 120vh; /* Usa el alto completo de la pantalla */
-                            overflow: hidden; /* Evita desplazamientos inesperados */
-                        }
-
-                        .background-image {
-                            position: absolute;
-                            width: 120%; /* Mantiene el ancho completo */
-                            height: 128%; /* Mantiene el alto completo */
-                            object-fit: contain; /* Ajusta la imagen sin distorsión */
-                            left: -34%;
-                            margin-top:1%;
-                        }
-
-                        .field-overlay {
-                            position: absolute;
-                            font-size: 8x;
-                            left: 60%; /* Ajusta el texto dentro del contenedor */
-                            top: 10%; /* Mantiene la altura relativa */
-                            /*margin-top:1%;*/
-                            width: 100%; /* Evita que el texto se salga del área visible */
-                            text-align: left; /* Centra el texto si es necesario */
-                        }
+                        z-index: 1;
                     }
                     @media print {
-                        body { transform: scale(1);
+                        .page, .background-container {
+                            height: 1200px;
                         }
                         .background-image {
-                            width: 100%;
-                            height: 100vh;
-                            object-fit: fill;
+                            object-fit: contain;
                         }
                     }
                 </style>
                 <div class="page">
-                    <div class="background-container">
-                        <!-- Imagen de fondo -->
-                        <img src="/ing_seguros/static/src/pdf/Formulario-de-Denuncia.png" class="background-image"/>
+                    <main class="main-content">
+                        <div class="background-container" style="position: relative; width: 100%; height: 1000px;">
+                            <!--<img t-att-src="'/ing_seguros/static/src/pdf/Formulario-de-Denuncia.png'" class="background-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 130%; object-fit: contain; z-index: 0;"/>-->
+                            <img t-att-src="'data:image/png;base64,%s' % o.imagen_fondo.decode('utf-8')" class="background-image" style="position: absolute; top: 0; left: 0; width: 210mm; height: 297mm; object-fit: cover; z-index: 0;"/>
 
+                            <span class="field-overlay" style="position: absolute; top: 145px; left: 120px;"><t t-esc="o.poliza_numero"/></span>
+                            <!--<span class="field-overlay" style="top: 280px; left: 910px;"><t t-esc="o.siniestro_numero"/></span>-->
+                            <span class="field-overlay" style="position: absolute; top: 165px; left: 120px;"><t t-esc="o.tomador_nombre"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 165px; left: 580px;"><t t-esc="o.tomador_telefono"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 185px; left: 120px;"><t t-esc="o.tomador_domicilio"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 185px; left: 430px;"><t t-esc="o.tomador_localidad"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 185px; left: 630px;"><t t-esc="o.tomador_dpto"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 200px; left: 120px;"><t t-esc="o.tomador_email"/></span>
 
+                            <!-- Datos del Asegurado -->
+                            <span class="field-overlay" style="position: absolute; top: 220px; left: 240px;"><t t-esc="o.employee_id.name"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 220px; left: 650px;"><t t-esc="o.asegurado_dni"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 240px; left: 120px;"><t t-esc="o.asegurado_calle"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 260px; left: 120px;"><t t-esc="o.asegurado_localidad"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 260px; left: 457px;"><t t-esc="o.asegurado_provincia"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 260px; left: 680px;"><t t-esc="o.asegurado_cp"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 280px; left: 120px;"><t t-esc="o.asegurado_email"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 295px; left: 180px;"><t t-esc="o.tarea_efectuada"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 295px; left: 680px;"><t t-esc="o.asegurado_edad"/></span>
+                            <!--<span class="field-overlay" style="top: 605px; left: 470px;"><t t-esc="o.beneficiario_nombre"/></span>
+                            <span class="field-overlay" style="top: 705px; left: 200px;"><t t-esc="o.especificar_obra_social"/></span>-->
 
-                        <!-- Datos del Siniestro -->
-                        <span class="field-overlay" style="top: 145px; left: 120px;"><t t-esc="o.poliza_numero"/></span>
-                        <!--<span class="field-overlay" style="top: 280px; left: 910px;"><t t-esc="o.siniestro_numero"/></span>-->
-                        <span class="field-overlay" style="top: 165px; left: 120px;"><t t-esc="o.tomador_nombre"/></span>
-                        <span class="field-overlay" style="top: 165px; left: 580px;"><t t-esc="o.tomador_telefono"/></span>
-                        <span class="field-overlay" style="top: 185px; left: 120px;"><t t-esc="o.tomador_domicilio"/></span>
-                        <span class="field-overlay" style="top: 185px; left: 430px;"><t t-esc="o.tomador_localidad"/></span>
-                        <span class="field-overlay" style="top: 185px; left: 630px;"><t t-esc="o.tomador_dpto"/></span>
-                        <span class="field-overlay" style="top: 200px; left: 120px;"><t t-esc="o.tomador_email"/></span>
+                            <!-- Datos del Accidente -->
+                            <span class="field-overlay" style="position: absolute; top: 425px; left: 100px;"><t t-esc="o.dia"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 425px; left: 265px;"><t t-esc="o.mes"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 425px; left: 465px;"><t t-esc="o.anio"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 425px; left: 650px;"><t t-esc="o.hora"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 445px; left: 220px;"><t t-esc="o.lugar_accidente"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 480px; left: 50px; display: inline-block; max-width: 680px; overflow: hidden; word-wrap: break-word;"><t t-esc="o.circunstancias"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 578px; left: 400px;"><t t-esc="o.actividad_accidentado"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 595px; left: 240px;"><t t-esc="o.parte_cuerpo_lesionado"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 595px; left: 482px;"><t t-esc="o.tipo_lesion"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 1000px; left: 130px;"><t t-esc="o.denunciante_telefono_fondo"/></span>
 
-                        <!-- Datos del Asegurado -->
-                        <span class="field-overlay" style="top: 220px; left: 240px;"><t t-esc="o.employee_id.name"/></span>
-                        <span class="field-overlay" style="top: 220px; left: 650px;"><t t-esc="o.asegurado_dni"/></span>
-                        <span class="field-overlay" style="top: 240px; left: 120px;"><t t-esc="o.asegurado_calle"/></span>
-                        <span class="field-overlay" style="top: 260px; left: 120px;"><t t-esc="o.asegurado_localidad"/></span>
-                        <span class="field-overlay" style="top: 260px; left: 450px;"><t t-esc="o.asegurado_provincia"/></span>
-                        <span class="field-overlay" style="top: 260px; left: 680px;"><t t-esc="o.asegurado_cp"/></span>
-                        <span class="field-overlay" style="top: 280px; left: 120px;"><t t-esc="o.asegurado_email"/></span>
-                        <span class="field-overlay" style="top: 295px; left: 180px;"><t t-esc="o.tarea_efectuada"/></span>
-                        <span class="field-overlay" style="top: 295px; left: 680px;"><t t-esc="o.asegurado_edad"/></span>
-                        <!--<span class="field-overlay" style="top: 605px; left: 470px;"><t t-esc="o.beneficiario_nombre"/></span>
-                        <span class="field-overlay" style="top: 705px; left: 200px;"><t t-esc="o.especificar_obra_social"/></span>-->
+                            <!--<span class="field-overlay" style="top: 1190px; left: 150px;"><t t-esc="o.medico_primera_atencion"/></span>
+                            <span class="field-overlay" style="top: 1290px; left: 340px;"><t t-esc="o.nombres_testigos"/></span>
+                            <span class="field-overlay" style="top: 1360px; left: 340px;"><t t-esc="o.domicilios_testigos"/></span>
+                            <span class="field-overlay" style="top: 1470px; left: 150px;"><t t-esc="o.autoridad"/></span>-->
 
-                        <!-- Campos Booleanos (con ✔ si son True)
-                        <span class="field-overlay" style="top: 670px; left: 410px;">
-                            <t t-if="o.cuenta_obra_social">✔</t>
-                        </span>-->
-
-                        <!-- Datos del Accidente -->
-                        <span class="field-overlay" style="top: 425px; left: 100px;"><t t-esc="o.dia"/></span>
-                        <span class="field-overlay" style="top: 425px; left: 265px;"><t t-esc="o.mes"/></span>
-                        <span class="field-overlay" style="top: 425px; left: 465px;"><t t-esc="o.anio"/></span>
-                        <span class="field-overlay" style="top: 425px; left: 650px;"><t t-esc="o.hora"/></span>
-                        <span class="field-overlay" style="top: 445px; left: 220px;"><t t-esc="o.lugar_accidente"/></span>
-                        <span class="field-overlay" style="top: 480px; left: 50px; display: inline-block; max-width: 680px; overflow: hidden; word-wrap: break-word;"><t t-esc="o.circunstancias"/></span>
-                        <span class="field-overlay" style="top: 580px; left: 400px;"><t t-esc="o.actividad_accidentado"/></span>
-                        <span class="field-overlay" style="top: 595px; left: 240px;"><t t-esc="o.parte_cuerpo_lesionado"/></span>
-                        <span class="field-overlay" style="top: 595px; left: 480px;"><t t-esc="o.tipo_lesion"/></span>
-                        <span class="field-overlay" style="top: 1000px; left: 130px;"><t t-esc="o.denunciante_telefono_fondo"/></span>
-
-                        <!--<span class="field-overlay" style="top: 1190px; left: 150px;"><t t-esc="o.medico_primera_atencion"/></span>
-                        <span class="field-overlay" style="top: 1290px; left: 340px;"><t t-esc="o.nombres_testigos"/></span>
-                        <span class="field-overlay" style="top: 1360px; left: 340px;"><t t-esc="o.domicilios_testigos"/></span>
-                        <span class="field-overlay" style="top: 1470px; left: 150px;"><t t-esc="o.autoridad"/></span>-->
-
-                        <!-- Datos del Denunciante
-                        <span class="field-overlay" style="top: 1540px; left: 150px;"><t t-esc="o.tipo_denunciante"/></span>
-                        <span class="field-overlay" style="top: 1580px; left: 300px;"><t t-esc="o.denunciante_nombre"/></span>
-                        <span class="field-overlay" style="top: 1615px; left: 380px;"><t t-esc="o.denunciante_domicilio"/></span>-->
-                    </div>
+                            <!-- Datos del Denunciante
+                            <span class="field-overlay" style="top: 1540px; left: 150px;"><t t-esc="o.tipo_denunciante"/></span>
+                            <span class="field-overlay" style="top: 1580px; left: 300px;"><t t-esc="o.denunciante_nombre"/></span>
+                            <span class="field-overlay" style="top: 1615px; left: 380px;"><t t-esc="o.denunciante_domicilio"/></span>-->
+                        </div>
+                    </main>
                 </div>
             </t>
         </template>
@@ -164,6 +125,7 @@
             name="ing_seguros.planilla_iasper_template"
             file="ing_seguros.planilla_iasper_template"
             menu="False"
-            paperformat="paperformat_info_planilla_iasper_mediaA4"/>
+            paperformat="paperformat_info_planilla_iasper_mediaA4"
+            print_report_name="'Planilla_IAPSER_%s' % (object.id)"/>
     </data>
 </odoo>
