@@ -144,6 +144,13 @@ class plantilla_iasper(models.Model):
         ('done', 'Finalizado')
     ], string="Estado", default='draft')
 
+    # Fecha de creación automática
+    fecha_creacion = fields.Datetime(
+        string="Fecha de creación",
+        default=fields.Date.context_today,
+        readonly=True
+    )
+
     @api.onchange('employee_id')
     def _onchange_employee_id(self):
         """ Autocompletar los datos del asegurado al seleccionar un empleado """
@@ -161,7 +168,7 @@ class plantilla_iasper(models.Model):
                                                                                     'floor') else ''  # Piso
             self.asegurado_dpto = self.employee_id.address_home_id.apartment if hasattr(
                 self.employee_id.address_home_id, 'apartment') else 'Federación'  # Departamento
-            self.tarea_efectuada = self.employee_id.job_title  # Tarea que efectúa
+            self.tarea_efectuada = self.employee_id.job_title_for  # Tarea que efectúa
 
     @api.depends('employee_id', 'employee_id.birthday')
     def _compute_asegurado_edad(self):
