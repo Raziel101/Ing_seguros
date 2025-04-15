@@ -147,7 +147,7 @@ class plantilla_iasper(models.Model):
     # Fecha de creación automática
     fecha_creacion = fields.Datetime(
         string="Fecha de creación",
-        default=fields.Date.context_today,
+        default=fields.Datetime.now,
         readonly=True
     )
 
