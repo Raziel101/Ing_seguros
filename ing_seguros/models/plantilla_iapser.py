@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class plantilla_iasper(models.Model):
     _name = 'ing.seguros.planilla.iasper'
     _description = 'Denuncia de Accidente'
+    _order = 'fecha_creacion desc'
 
     # Datos del siniestro
     poliza_numero = fields.Char(string="Póliza N°", default="80357/12",required=True)
