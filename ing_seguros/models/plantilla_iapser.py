@@ -57,9 +57,9 @@ class plantilla_iasper(models.Model):
     mes = fields.Integer(string="Mes", required=True)
     anio = fields.Integer(string="Año", required=True)
     hora = fields.Char(string="Hora", required=True)
-    lugar_accidente = fields.Text(string="Lugar donde ocurrió", required=True)
-    circunstancias = fields.Text(string="Circunstancias en que se produjo (explicar detalladamente)", required=True)
-    actividad_accidentado = fields.Text(string="Actividad que efectuaba el accidentado en aquel momento", required=True)
+    lugar_accidente = fields.Char(string="Lugar donde ocurrió", required=True, size=40)
+    circunstancias = fields.Text(string="Circunstancias en que se produjo (explicar detalladamente)", required=True )
+    actividad_accidentado = fields.Char(string="Actividad que efectuaba el accidentado en aquel momento", required=True, size=40)
     tipo_lesion = fields.Selection([('Caídas de personas por caídas desde alturas', 'caídas de personas por caídas desde alturas'),
                                     ('Caídas de personas por caídas en profundidades', 'caídas de personas por caídas en profundidades'),
                                     ('Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)', 'Derrumbe (caídas de tierra, de rocas, de piedra, de nieve)'),
