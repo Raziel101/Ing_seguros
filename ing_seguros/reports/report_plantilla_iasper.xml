@@ -87,7 +87,7 @@
                             <span class="field-overlay" style="position: absolute; top: 585px; left: 235px; font-size: 12px;"><t t-esc="o.parte_cuerpo_lesionado"/></span>
                             <span class="field-overlay" style="position: absolute; top: 605px; left: 235px; font-size: 12px;"><t t-esc="o.parte_cuerpo_lesionado2"/></span>
                             <span class="field-overlay" style="position: absolute; top: 585px; left: 482px; font-size: 12px; max-width: 670px; display: inline-block; overflow: hidden; word-wrap: break-word;"><t t-esc="o.tipo_lesion"/></span>
-                            <span class="field-overlay" style="position: absolute; top: 605px; left: 482px; font-size: 12px; max-width: 670px; display: inline-block; overflow: hidden; word-wrap: break-word;"><t t-esc="o.tipo_lesion"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 605px; left: 482px; font-size: 12px; max-width: 670px; display: inline-block; overflow: hidden; word-wrap: break-word;"><t t-esc="o.tipo_lesion2"/></span>
                             <span class="field-overlay" style="position: absolute; top: 1000px; left: 130px; font-size: 12px;"><t t-esc="o.denunciante_telefono_fondo"/></span>
                             <span class="field-overlay" style="position: absolute; top: 1000px; left: 450px; font-size: 12px;">
                                 Chajarí,<t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
