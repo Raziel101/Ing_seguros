@@ -230,13 +230,8 @@ class plantilla_iasper(models.Model):
         vals['state'] = 'save'
         return super(plantilla_iasper, self).create(vals)
 
+
     def print_planilla(self):
-        """ Genera la URL para la impresión del reporte en formato HTML """
-        """return {
-            "type": "ir.actions.act_url",
-            "target": "new",
-            "url": f"/report/html/ing_seguros.planilla_iasper_template/{self.id}?context=%7B%22lang%22%3A%22es_ES%22%2C%22tz%22%3A%22America%2FBuenos_Aires%22%2C%22uid%22%3A274%2C%22allowed_company_ids%22%3A%5B1%5D%7D",
-        }"""
         return self.env.ref('ing_seguros.inf_planilla_iasper_report').report_action(self, config=False)
 
     def _set_paper_format(self):

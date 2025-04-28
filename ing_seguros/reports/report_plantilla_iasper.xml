@@ -89,12 +89,20 @@
                             <span class="field-overlay" style="position: absolute; top: 585px; left: 482px; font-size: 12px; max-width: 670px; display: inline-block; overflow: hidden; word-wrap: break-word;"><t t-esc="o.tipo_lesion"/></span>
                             <span class="field-overlay" style="position: absolute; top: 605px; left: 482px; font-size: 12px; max-width: 670px; display: inline-block; overflow: hidden; word-wrap: break-word;"><t t-esc="o.tipo_lesion"/></span>
                             <span class="field-overlay" style="position: absolute; top: 1000px; left: 130px; font-size: 12px;"><t t-esc="o.denunciante_telefono_fondo"/></span>
+                            <span class="field-overlay" style="position: absolute; top: 1000px; left: 450px; font-size: 12px;">
+                                Chajarí,<t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                            </span>
+
+                            <!--<t t-set="now" t-value="o.env.context.get('timestamp')"/>
+                            <span class="field-overlay" style="position: absolute; top: 1000px; left: 450px; font-size: 14px;">
+                                <t t-if="now">Chajarí, <t t-esc="now.strftime('%d/%m/%Y')"/></t>
+                                <t t-if="not now">Chajarí, [sin fecha actual]</t>
+                            </span>-->
 
                             <!--<span class="field-overlay" style="top: 1190px; left: 150px;"><t t-esc="o.medico_primera_atencion"/></span>
                             <span class="field-overlay" style="top: 1290px; left: 340px;"><t t-esc="o.nombres_testigos"/></span>
                             <span class="field-overlay" style="top: 1360px; left: 340px;"><t t-esc="o.domicilios_testigos"/></span>
                             <span class="field-overlay" style="top: 1470px; left: 150px;"><t t-esc="o.autoridad"/></span>-->
-
                             <!-- Datos del Denunciante
                             <span class="field-overlay" style="top: 1540px; left: 150px;"><t t-esc="o.tipo_denunciante"/></span>
                             <span class="field-overlay" style="top: 1580px; left: 300px;"><t t-esc="o.denunciante_nombre"/></span>
